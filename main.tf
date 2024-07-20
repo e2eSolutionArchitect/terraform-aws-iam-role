@@ -1,3 +1,4 @@
+data "aws_caller_identity" "current" {}
 resource "aws_iam_role" "this" {
   name               = var.role_name
   assume_role_policy = data.aws_iam_policy_document.document.json
@@ -13,7 +14,7 @@ data "aws_iam_policy_document" "document" {
     actions = ["sts:AssumeRole"]
     principals {
       type        = "Service"
-      identifiers = var.iam_policy_identifiers
+      identifiers = var.iam_policy_identifiers #["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
     }
   }
 }
